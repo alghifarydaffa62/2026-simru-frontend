@@ -8,7 +8,6 @@ export default function DaftarRuang() {
             <div className="overflow-x-auto">
                 <TabelDaftarRuangan/>
             </div>
-            
         </div>
     )
 }

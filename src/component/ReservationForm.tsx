@@ -1,30 +1,44 @@
-import { useState } from "react"
+import useReservation from "../hooks/useReservation"
+import useRoomData from "../hooks/useRoomsData"
 
 export default function ReservationForm() {
-    const [room, setRoom] = useState("")
-    const [peminjam, setPeminjam] = useState("")
-    const [tanggalPinjam, setTanggalPinjam] = useState("")
-    const [keperluan, setKeperluan] = useState("")
+    const {
+        roomId, setRoomId,
+        peminjam, setPeminjam,
+        tanggalPinjam, setTanggalPinjam,
+        keperluan, setKeperluan,
+        error, isLoading, handleSubmit, isSuccess
+    } = useReservation()
 
+    const { rooms } = useRoomData()
+    
     return(
-        <form className="flex flex-col gap-4 p-3 rounded-md bg-amber-100 w-fit">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-3 rounded-md bg-amber-100 w-fit">
+            {error && <p className="text-red-600 bg-red-100 p-2 rounded">{error}</p>}
+            {isSuccess && (
+                <div className="p-3 bg-green-200 text-green-800 rounded-md border border-green-400 animate-bounce">
+                    ✅ Peminjaman berhasil dibuat! Data sudah masuk ke database.
+                </div>
+            )}
             <div className="flex flex-col gap-3">
                 <label htmlFor="" className="font-semibold text-lg">Ruangan:</label>
-                <input 
-                    type="text" 
-                    name="" 
-                    id=""
-                    value={room}
-                    onChange={e => setRoom(e.target.value)} 
-                    className="p-2 rounded-lg w-md border border-black"
-                />
+                <select 
+                    value={roomId} 
+                    onChange={e => setRoomId(e.target.value)}
+                    className="p-2 rounded-lg w-md border border-black bg-white"
+                >
+                    <option value="">-- Pilih Ruangan --</option>
+                    {rooms.map((r) => (
+                        <option key={r.id} value={r.id}>
+                            {r.name} ({r.roomCode})
+                        </option>
+                    ))}
+                </select>
             </div>
             <div className="flex flex-col gap-3">
                 <label htmlFor="" className="font-semibold text-lg">Nama Peminjam:</label>
                 <input 
                     type="text" 
-                    name="" 
-                    id=""
                     value={peminjam} 
                     onChange={e => setPeminjam(e.target.value)}
                     className="p-2 rounded-lg w-md border border-black"/>
@@ -53,8 +67,11 @@ export default function ReservationForm() {
 
             <button 
                 type="submit"
-                className="p-3 rounded-md bg-blue-800 w-sm font-semibold text-lg text-white"
-            >Submit</button>
+                disabled={isLoading}
+                className="p-3 rounded-md bg-blue-800 w-sm font-semibold text-lg text-white disabled:bg-gray-400"
+            >
+                {isLoading ? "Loading..." : "Submit Peminjaman"}
+            </button>
         </form>
     )
 }

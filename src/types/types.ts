@@ -6,3 +6,10 @@ export interface Room {
     capacity: number;    
     isDeleted: boolean;
 }
+
+export interface RoomWithStatus extends Room {
+    currentReservation: {
+        borrowerName: string;
+        purpose: string;
+    } | null; // Bisa null kalau sedang tersedia
+}

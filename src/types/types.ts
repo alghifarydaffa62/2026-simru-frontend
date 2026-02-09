@@ -11,5 +11,5 @@ export interface RoomWithStatus extends Room {
     currentReservation: {
         borrowerName: string;
         purpose: string;
-    } | null; // Bisa null kalau sedang tersedia
+    } | null; 
 }

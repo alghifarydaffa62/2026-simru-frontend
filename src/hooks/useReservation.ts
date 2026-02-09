@@ -5,7 +5,7 @@ export default function useReservation() {
     const [peminjam, setPeminjam] = useState("")
     const [tanggalPinjam, setTanggalPinjam] = useState("")
     const [keperluan, setKeperluan] = useState("")
-    const [status, setStatus] = useState("Active")
+    const [status, setStatus] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState("")
     const [isSuccess, setIsSuccess] = useState(false)

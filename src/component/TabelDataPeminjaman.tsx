@@ -3,9 +3,11 @@ import { Loader2 } from "lucide-react"
 import { useState } from "react"
 import ReservationViewModal from "./ReservationViewModal"
 import { type Reservation } from "../types/types"
+import useDeleteReservation from "../hooks/useDeleteReservation"
 
 export default function TabelDataPeminjaman() {
-    const { reservations, isLoading, error } = useReservationsData()
+    const { reservations, isLoading, error, fetchReservations } = useReservationsData()
+    const { deleteReservation, isDeleting } = useDeleteReservation(fetchReservations)
     const [selectedRes, setSelectedRes] = useState<Reservation | null>(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -61,13 +63,18 @@ export default function TabelDataPeminjaman() {
                             <td className="flex gap-3">
                                 <button onClick={() => handleView(reservation)} className="p-3 rounded-md bg-amber-600 text-white font-semibold">View</button>
                                 <button className="p-3 rounded-md bg-blue-500 text-white font-semibold">Edit</button>
-                                <button className="p-3 rounded-md bg-red-600 text-white font-semibold">Hapus</button>
+                                <button 
+                                    onClick={() => deleteReservation(reservation.id)}
+                                    disabled={isDeleting}
+                                    className="p-3 rounded-md bg-red-600 text-white font-semibold disabled:opacity-50"
+                                >
+                                    {isDeleting ? "Deleting..." : "Delete"}
+                                </button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
         </div>
-        
     )
 }

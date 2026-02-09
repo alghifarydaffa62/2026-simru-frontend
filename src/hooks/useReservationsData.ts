@@ -29,6 +29,6 @@ export default function useReservationsData() {
 
     return {
         reservations, isLoading,
-        error
+        error, fetchReservations
     }
 }

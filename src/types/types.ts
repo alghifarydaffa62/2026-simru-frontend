@@ -15,12 +15,18 @@ export interface RoomWithStatus extends Room {
 }
 
 export interface Reservation {
-    id: number; // Sesuai dengan penamaan di C# (biasanya 'Id')
+    id: number; 
     roomId: number;
-    room?: Room; // Objek Room hasil dari .Include() di Backend
-    borrowerName: string; // Perhatikan CamelCase (N besar)
+    room?: Room; 
+    borrowerName: string; 
     borrowDate: string;
     purpose: string;
-    status: number; // Untuk menampung Enum (0, 1, 2)
+    status: number; 
     isDeleted: boolean;
+}
+
+export interface ReservationProps {
+    isOpen: boolean;
+    onClose: () => void;
+    data: Reservation | null;
 }

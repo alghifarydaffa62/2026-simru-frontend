@@ -4,20 +4,28 @@ import { useState } from "react"
 import ReservationViewModal from "./ReservationViewModal"
 import { type Reservation } from "../types/types"
 import useDeleteReservation from "../hooks/useDeleteReservation"
+import EditReservationModal from "./EditReservationModal"
 
 export default function TabelDataPeminjaman() {
     const { reservations, isLoading, error, fetchReservations } = useReservationsData()
     const { deleteReservation, isDeleting } = useDeleteReservation(fetchReservations)
     const [selectedRes, setSelectedRes] = useState<Reservation | null>(null)
+    const [editRes, setEditRes] = useState<Reservation | null>(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isEditOpen, setIsEditOpen] = useState(false)
 
     if(isLoading) return <Loader2/>
     if(error) return <p>error: {error}</p>
 
     const handleView = (res: Reservation) => {
-        setSelectedRes(res);
-        setIsModalOpen(true);
-    };
+        setSelectedRes(res)
+        setIsModalOpen(true)
+    }
+
+    const handleEditClick = (res: Reservation) => {
+        setEditRes(res)
+        setIsEditOpen(true)
+    }
 
     const getStatusLabel = (status: number) => {
         switch (status) {
@@ -35,6 +43,15 @@ export default function TabelDataPeminjaman() {
                 onClose={() => setIsModalOpen(false)} 
                 data={selectedRes} 
             />
+
+            <EditReservationModal
+                key={editRes?.id}
+                isOpen={isEditOpen}
+                onClose={() => setIsEditOpen(false)}
+                data={editRes}
+                onRefresh={fetchReservations}
+            />
+
             <table className="min-w-3xl border-collapse border border-slate-400 bg-white text-left text-sm">
                 <thead className="bg-slate-50">
                     <tr>
@@ -62,7 +79,11 @@ export default function TabelDataPeminjaman() {
                             <td>{getStatusLabel(reservation.status)}</td>
                             <td className="flex gap-3">
                                 <button onClick={() => handleView(reservation)} className="p-3 rounded-md bg-amber-600 text-white font-semibold">View</button>
-                                <button className="p-3 rounded-md bg-blue-500 text-white font-semibold">Edit</button>
+                                <button 
+                                    onClick={() => handleEditClick(reservation)} 
+                                    disabled={isEditOpen} 
+                                    className="p-3 rounded-md bg-blue-500 text-white font-semibold"
+                                >Edit</button>
                                 <button 
                                     onClick={() => deleteReservation(reservation.id)}
                                     disabled={isDeleting}

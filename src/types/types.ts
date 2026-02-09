@@ -30,3 +30,10 @@ export interface ReservationProps {
     onClose: () => void;
     data: Reservation | null;
 }
+
+export interface EditReservationProps {
+    isOpen: boolean;
+    onClose: () => void;
+    data: Reservation | null;
+    onRefresh: () => void;
+}

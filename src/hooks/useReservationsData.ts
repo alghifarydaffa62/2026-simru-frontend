@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { type Reservation } from "../types/types"
 
-export default function useReservationsData() {
+export default function useReservationsData(searchInfo: string = "") {
     const [reservations, setReservations] = useState<Reservation[]>([])
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState("")
@@ -11,9 +11,7 @@ export default function useReservationsData() {
         setError("")
 
         try {
-            const response = await fetch("http://localhost:5211/api/Reservations/active")
-            if(!response.ok) throw new Error("Error fetching reservation data")
-
+            const response = await fetch(`http://localhost:5211/api/Reservations/active?search=${searchInfo}`)
             const reservationData = await response.json()
             setReservations(reservationData)
         } catch(err: any) {
@@ -25,7 +23,7 @@ export default function useReservationsData() {
 
     useEffect(() => {
         fetchReservations()
-    }, [])
+    }, [searchInfo])
 
     return {
         reservations, isLoading,

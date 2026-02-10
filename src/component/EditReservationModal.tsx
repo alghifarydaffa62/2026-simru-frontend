@@ -16,7 +16,7 @@ export default function EditReservationModal({ isOpen, onClose, data, onRefresh 
     }, [isOpen, data]);
 
     if (!isOpen || !formData) return null;
-
+    
     const handleSubmit = (e: React.SubmitEvent) => {
         e.preventDefault();
         editReservation(formData.id, formData);
@@ -34,7 +34,7 @@ export default function EditReservationModal({ isOpen, onClose, data, onRefresh 
                         <label className="block text-sm font-medium">Nama Ruangan</label>
                         <input 
                             className="w-full rounded border p-2"
-                            value={formData.room?.name}
+                            value={formData.roomName}
                             readOnly
                             onChange={(e) => setFormData({...formData, borrowerName: e.target.value})}
                         />

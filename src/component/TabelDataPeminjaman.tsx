@@ -89,7 +89,7 @@ export default function TabelDataPeminjaman() {
                         reservations.map((reservation) => (
                             <tr key={reservation.id}>
                                 <td>{reservation.id}</td>
-                                <td>{reservation.room?.name || "N/A"}</td>
+                                <td>{reservation.roomName || "N/A"}</td>
                                 <td>{reservation.borrowerName}</td>
                                 <td>
                                     {new Date(reservation.borrowDate).toLocaleDateString("id-ID", {

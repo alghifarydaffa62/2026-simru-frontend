@@ -11,7 +11,7 @@ export default function ReservationViewModal({ isOpen, onClose, data }: Reservat
                 <div className="space-y-3">
                     <div>
                         <label className="text-xs text-slate-500 uppercase font-semibold">Ruangan</label>
-                        <p className="font-medium">{data.room?.name} ({data.room?.roomCode})</p>
+                        <p className="font-medium">{data.roomName} ({data.roomCode})</p>
                     </div>
                     
                     <div className="grid grid-cols-2 gap-4">
@@ -21,7 +21,7 @@ export default function ReservationViewModal({ isOpen, onClose, data }: Reservat
                         </div>
                         <div>
                             <label className="text-xs text-slate-500 uppercase font-semibold">Kapasitas</label>
-                            <p>{data.room?.capacity} Orang</p>
+                            <p>{data.roomCapacity} Orang</p>
                         </div>
                     </div>
 

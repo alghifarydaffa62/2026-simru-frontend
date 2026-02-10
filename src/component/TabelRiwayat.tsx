@@ -24,7 +24,7 @@ export default function TabelRiwayat() {
                     {history.map((riwayat) => (
                         <tr key={riwayat.id}>
                             <td>{riwayat.id}</td>
-                            <td>{riwayat.room?.name}</td>
+                            <td>{riwayat.roomName}</td>
                             <td>{riwayat.borrowerName}</td>
                             <td>
                                 {new Date(riwayat.borrowDate).toLocaleDateString("id-ID", {

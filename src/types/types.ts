@@ -37,3 +37,9 @@ export interface EditReservationProps {
     data: Reservation | null;
     onRefresh: () => void;
 }
+
+export interface SearchBarProps {
+    value: string;
+    onChange: (val: string) => void;
+    placeholder?: string;
+}

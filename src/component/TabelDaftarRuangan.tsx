@@ -39,7 +39,7 @@ export default function TabelDaftarRuangan() {
                             <td>
                                 {room.currentReservation ? (
                                     <span className="text-red-600 font-bold">
-                                        Dipinjam oleh: {room.currentReservation.borrowerName}
+                                        Dipinjam
                                     </span>
                                 ) : (
                                     <span className="text-green-600 font-bold">Tersedia</span>

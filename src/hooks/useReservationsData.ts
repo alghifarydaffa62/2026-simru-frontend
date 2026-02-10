@@ -11,7 +11,7 @@ export default function useReservationsData() {
         setError("")
 
         try {
-            const response = await fetch("http://localhost:5211/api/Reservations")
+            const response = await fetch("http://localhost:5211/api/Reservations/active")
             if(!response.ok) throw new Error("Error fetching reservation data")
 
             const reservationData = await response.json()

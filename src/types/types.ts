@@ -17,7 +17,9 @@ export interface RoomWithStatus extends Room {
 export interface Reservation {
     id: number; 
     roomId: number;
-    room?: Room; 
+    roomName: string;
+    roomCode: string;
+    roomCapacity: number; 
     borrowerName: string; 
     borrowDate: string;
     purpose: string;

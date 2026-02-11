@@ -1,24 +1,31 @@
 import { type SearchBarProps } from "../types/types"
+import { Search, X } from "lucide-react"
 
 export default function SearchBar({ value, onChange, placeholder }: SearchBarProps) {
     return(
-        <div className="relative w-full max-w-md">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span className="text-slate-400">🔍</span>
+        <div className="relative w-full max-w-md group">
+            {/* Search Icon */}
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Search className="w-4 h-4 text-slate-400 group-focus-within:text-black transition-colors" />
             </div>
+
+            {/* Input Field */}
             <input
                 type="text"
-                className="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-lg leading-5 bg-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-slate-900 sm:text-sm transition-all"
+                className="block w-full pl-11 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-black focus:bg-white focus:border-transparent transition-all placeholder:text-slate-400 text-slate-900"
                 placeholder={placeholder || "Cari data..."}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
             />
+
+            {/* Clear Button */}
             {value && (
                 <button 
                     onClick={() => onChange("")}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-red-500 transition-colors"
+                    aria-label="Clear search"
                 >
-                    ✕
+                    <X className="w-4 h-4" />
                 </button>
             )}
         </div>

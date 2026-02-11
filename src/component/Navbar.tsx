@@ -1,18 +1,18 @@
 
 export default function Navbar() {
     return(
-        <nav className="flex justify-between items-center">
-            <h1 className="text-2xl font-semibold">Simru</h1>
+        <nav className="flex justify-around items-center py-4">
+            <h1 className="text-xl font-bold tracking-tighter text-slate-900">SIMRU</h1>
 
-            <ul className="flex gap-6">
-                <li><a href="/">Home</a></li>
-                <li><a href="/DaftarRuangan">Daftar Ruangan</a></li>
-                <li><a href="/Peminjaman">Pinjam Ruangan</a></li>
-                <li><a href="/DataPeminjaman">Data Peminjaman</a></li>
-                <li><a href="/riwayatPeminjaman">Riwayat Peminjaman</a></li>
-            </ul>
-
-            <button className="p-3 rounded-md bg-blue-600 text-white font-semibold text-md">Cari Informasi</button>
+            <div className="flex items-center gap-8">
+                <ul className="flex gap-6 text-sm font-medium text-slate-500">
+                <li><a href="/" className="hover:text-black transition-colors">Home</a></li>
+                <li><a href="/DaftarRuangan" className="hover:text-black transition-colors">Ruangan</a></li>
+                <li><a href="/Peminjaman" className="hover:text-black transition-colors">Pinjam</a></li>
+                <li><a href="/DataPeminjaman" className="hover:text-black transition-colors">Data</a></li>
+                <li><a href="/riwayatPeminjaman" className="hover:text-black transition-colors">Riwayat</a></li>
+                </ul>
+            </div>
         </nav>
     )
 }

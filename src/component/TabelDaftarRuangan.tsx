@@ -1,55 +1,67 @@
 import useRoomData from "../hooks/useRoomsData"
-import { Loader } from "lucide-react";
+import { Loader, Calendar } from "lucide-react";
 
 export default function TabelDaftarRuangan() {
     const { rooms, isLoading, error, currentDate, setCurrentDate } = useRoomData()
 
-    if (isLoading) return <Loader/>;
-    if(error) return <p>error: {error}</p>
-    
-    return(
+    if (isLoading) return (
+        <div className="flex justify-center p-20">
+            <Loader className="animate-spin text-slate-400" />
+        </div>
+    )
+  
+    if (error) return <div className="p-6 text-red-500 text-sm">Error: {error}</div>
+
+    return (
         <div>
-            <div className="flex items-center gap-2">
-                <label className="text-sm font-medium">Lihat Tanggal:</label>
-                <input 
-                    type="date" 
-                    value={currentDate}
-                    onChange={(e) => setCurrentDate(e.target.value)}
-                    className="border p-2 rounded-md"
-                />
+            <div className="p-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+                <div className="relative flex items-center">
+                    <Calendar className="absolute left-3 w-4 h-4 text-slate-400" />
+                    <input 
+                        type="date" 
+                        value={currentDate}
+                        onChange={(e) => setCurrentDate(e.target.value)}
+                        className="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-black outline-none transition-all"
+                    />
+                    </div>
+                    <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+                    Total: {rooms.length} Ruangan
+                    </span>
             </div>
 
-            <table className="min-w-3xl border-collapse border border-slate-400 bg-white text-left text-sm">
-                <thead className="bg-slate-50">
-                    <tr>
-                        <th className="border border-slate-300 px-4 py-2 font-semibold text-slate-900">No.</th>
-                        <th className="border border-slate-300 px-4 py-2 font-semibold text-slate-900">Kode Ruangan</th>
-                        <th className="border border-slate-300 px-4 py-2 font-semibold text-slate-900">Nama Ruangan</th>
-                        <th className="border border-slate-300 px-4 py-2 font-semibold text-slate-900">Kapasitas Ruangan</th>
-                        <th className="border border-slate-300 px-4 py-2 font-semibold text-slate-900">Status</th>
-                    </tr>
-                </thead> 
-                <tbody>
-                    {rooms.map((room) => (
-                        <tr key={room.id}>
-                            <td>{room.id}</td>
-                            <td>{room.roomCode}</td>
-                            <td>{room.name}</td>
-                            <td>{room.capacity}</td>
-                            <td>
-                                {room.currentReservation ? (
-                                    <span className="text-red-600 font-bold">
-                                        Dipinjam
-                                    </span>
-                                ) : (
-                                    <span className="text-green-600 font-bold">Tersedia</span>
-                                )}
+            {/* Table Section */}
+            <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                    <thead>
+                        <tr className="border-b border-slate-100 bg-white">
+                        <th className="px-6 py-4 font-semibold text-slate-900">Kode</th>
+                        <th className="px-6 py-4 font-semibold text-slate-900">Nama Ruangan</th>
+                        <th className="px-6 py-4 font-semibold text-slate-900 text-center">Kapasitas</th>
+                        <th className="px-6 py-4 font-semibold text-slate-900">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-50">
+                        {rooms.map((room) => (
+                        <tr key={room.id} className="hover:bg-slate-50/50 transition-colors group">
+                            <td className="px-6 py-4 font-mono text-xs text-slate-500">{room.roomCode}</td>
+                            <td className="px-6 py-4 font-medium text-slate-900">{room.name}</td>
+                            <td className="px-6 py-4 text-slate-500 text-center">{room.capacity} Orang</td>
+                            <td className="px-6 py-4">
+                            {room.currentReservation ? (
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700 border border-red-100">
+                                Dipinjam
+                                </span>
+                            ) : (
+                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
+                                Tersedia
+                                </span>
+                            )}
                             </td>
                         </tr>
-                    ))}    
-                </tbody>           
-            </table>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
-        
     )
 }

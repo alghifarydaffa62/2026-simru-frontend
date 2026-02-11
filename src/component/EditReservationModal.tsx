@@ -23,54 +23,32 @@ export default function EditReservationModal({ isOpen, onClose, data, onRefresh 
     };
 
     return(
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-            <form onSubmit={handleSubmit} className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-                <h2 className="mb-4 text-xl font-bold">Edit Peminjaman</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 text-sm">
+            <form onSubmit={handleSubmit} className="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl border border-slate-100">
+                <h2 className="mb-6 text-xl font-bold tracking-tight text-slate-900">Edit Peminjaman</h2>
                 
-                {error && <p className="mb-4 text-sm text-red-500 bg-red-50 p-2 rounded border border-red-200">{error}</p>}
+                {error && <div className="mb-4 text-xs text-red-600 bg-red-50 p-3 rounded-xl border border-red-100">{error}</div>}
 
                 <div className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium">Nama Ruangan</label>
-                        <input 
-                            className="w-full rounded border p-2"
-                            value={formData.roomName}
-                            readOnly
-                            onChange={(e) => setFormData({...formData, borrowerName: e.target.value})}
-                        />
+                    <div className="space-y-1">
+                        <label className="text-xs font-semibold text-slate-500 ml-1">Nama Ruangan</label>
+                        <input className="w-full rounded-xl bg-slate-50 border border-slate-200 p-3 outline-none text-slate-400 font-medium" value={formData.roomName} readOnly />
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium">Nama Peminjam</label>
-                        <input 
-                            className="w-full rounded border p-2"
-                            value={formData.borrowerName}
-                            onChange={(e) => setFormData({...formData, borrowerName: e.target.value})}
-                        />
+                    <div className="space-y-1">
+                        <label className="text-xs font-semibold text-slate-500 ml-1">Nama Peminjam</label>
+                        <input className="w-full rounded-xl border border-slate-200 p-3 outline-none focus:ring-2 focus:ring-black transition-all" value={formData.borrowerName} onChange={(e) => setFormData({...formData, borrowerName: e.target.value})} />
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium">Tanggal Pinjam</label>
-                        <input 
-                            type="date"
-                            className="w-full rounded border p-2"
-                            value={formData.borrowDate ? formData.borrowDate.split('T')[0] : ""}
-                            onChange={(e) => setFormData({...formData, borrowDate: e.target.value})}
-                        />
+                    <div className="space-y-1">
+                        <label className="text-xs font-semibold text-slate-500 ml-1">Tanggal Pinjam</label>
+                        <input type="date" className="w-full rounded-xl border border-slate-200 p-3 outline-none focus:ring-2 focus:ring-black transition-all" value={formData.borrowDate ? formData.borrowDate.split('T')[0] : ""} onChange={(e) => setFormData({...formData, borrowDate: e.target.value})} />
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium">Keperluan</label>
-                        <textarea 
-                            className="w-full rounded border p-2"
-                            value={formData.purpose}
-                            onChange={(e) => setFormData({...formData, purpose: e.target.value})}
-                        />
+                    <div className="space-y-1">
+                        <label className="text-xs font-semibold text-slate-500 ml-1">Keperluan</label>
+                        <textarea rows={3} className="w-full rounded-xl border border-slate-200 p-3 outline-none focus:ring-2 focus:ring-black transition-all resize-none" value={formData.purpose} onChange={(e) => setFormData({...formData, purpose: e.target.value})} />
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium">Status</label>
-                        <select 
-                            className="w-full rounded border p-2"
-                            value={formData.status}
-                            onChange={(e) => setFormData({...formData, status: parseInt(e.target.value)})}
-                        >
+                    <div className="space-y-1">
+                        <label className="text-xs font-semibold text-slate-500 ml-1">Status Reservasi</label>
+                        <select className="w-full rounded-xl border border-slate-200 p-3 outline-none focus:ring-2 focus:ring-black transition-all appearance-none bg-white cursor-pointer" value={formData.status} onChange={(e) => setFormData({...formData, status: parseInt(e.target.value)})}>
                             <option value={0}>Pending</option>
                             <option value={1}>Approved</option>
                             <option value={2}>Rejected</option>
@@ -78,14 +56,10 @@ export default function EditReservationModal({ isOpen, onClose, data, onRefresh 
                     </div>
                 </div>
 
-                <div className="mt-6 flex gap-2">
-                    <button type="button" onClick={onClose} className="flex-1 rounded py-2 hover:bg-slate-100">Batal</button>
-                    <button 
-                        type="submit" 
-                        disabled={isLoading}
-                        className="flex-1 rounded bg-slate-900 py-2 text-white hover:bg-slate-800 disabled:opacity-50"
-                    >
-                        {isLoading ? "Menyimpan..." : "Simpan Perubahan"}
+                <div className="mt-8 flex gap-3">
+                    <button type="button" onClick={onClose} className="flex-1 rounded-xl py-3 font-semibold text-slate-500 hover:bg-slate-50 transition-all">Batal</button>
+                    <button type="submit" disabled={isLoading} className="flex-1 rounded-xl bg-black py-3 text-white font-bold hover:bg-slate-800 disabled:opacity-30 transition-all">
+                        {isLoading ? "Saving..." : "Simpan"}
                     </button>
                 </div>
             </form>

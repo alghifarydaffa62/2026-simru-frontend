@@ -29,10 +29,10 @@ export default function TabelDataPeminjaman() {
 
     const getStatusLabel = (status: number) => {
         switch (status) {
-            case 0: return <span className="text-orange-500 font-medium">Pending</span>;
-            case 1: return <span className="text-green-600 font-medium">Disetujui</span>;
-            case 2: return <span className="text-red-600 font-medium">Ditolak</span>;
-            default: return "Unknown";
+            case 0: return <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-50 text-orange-700 border border-orange-100">Pending</span>;
+            case 1: return <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">Disetujui</span>;
+            case 2: return <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700 border border-red-100">Ditolak</span>;
+            default: return <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-50 text-slate-700 border border-slate-100">Unknown</span>;
         }
     }
 
@@ -44,7 +44,8 @@ export default function TabelDataPeminjaman() {
         return () => clearTimeout(handler)
     }, [searchInput])
 
-    if(isLoading) return <Loader2/>
+    if(isLoading) return <div className="p-20 flex justify-center"><Loader2 className="animate-spin text-slate-400" /></div>
+
     if(error) return <p>error: {error}</p>
 
     return(
@@ -63,63 +64,55 @@ export default function TabelDataPeminjaman() {
                 onRefresh={fetchReservations}
             />
 
-            <div className="flex justify-evenly items-center mb-4">
-                <h2 className="text-xl font-bold text-slate-800">Daftar Peminjaman Aktif</h2>
-                <SearchBar 
-                    value={searchInput} 
-                    onChange={setSearchInput} 
-                    placeholder="Cari peminjam atau ruangan..." 
-                />
+            <div className="p-4 border-b border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Reservasi Aktif</h2>
+                <div className="w-full sm:w-auto">
+                    <SearchBar value={searchInput} onChange={setSearchInput} placeholder="Peminjam atau ruangan..." />
+                </div>
             </div>
 
-            <table className="min-w-3xl border-collapse border border-slate-400 bg-white text-left text-sm">
-                <thead className="bg-slate-50">
+            <table className="w-full text-left">
+                <thead className="bg-white border-b border-slate-100">
                     <tr>
-                        <th className="border border-slate-300 px-4 py-2 font-semibold text-slate-900">No.</th>
-                        <th className="border border-slate-300 px-4 py-2 font-semibold text-slate-900">Nama Ruangan</th>
-                        <th className="border border-slate-300 px-4 py-2 font-semibold text-slate-900">Nama Peminjam</th>
-                        <th className="border border-slate-300 px-4 py-2 font-semibold text-slate-900">Tanggal Peminjaman</th>
-                        <th className="border border-slate-300 px-4 py-2 font-semibold text-slate-900">Keperluan</th>
-                        <th className="border border-slate-300 px-4 py-2 font-semibold text-slate-900">Status</th>
-                        <th className="border border-slate-300 px-4 py-2 font-semibold text-slate-900">Aksi</th>
+                        <th className="px-6 py-4 font-semibold text-slate-900">No.</th>
+                        <th className="px-6 py-4 font-semibold text-slate-900">Ruangan</th>
+                        <th className="px-6 py-4 font-semibold text-slate-900">Peminjam</th>
+                        <th className="px-6 py-4 font-semibold text-slate-900 text-center">Tanggal</th>
+                        <th className="px-6 py-4 font-semibold text-slate-900">Status</th>
+                        <th className="px-6 py-4 font-semibold text-slate-900 text-right">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-slate-50">
                     {reservations.length > 0 ? (
                         reservations.map((reservation) => (
-                            <tr key={reservation.id}>
-                                <td>{reservation.id}</td>
-                                <td>{reservation.roomName || "N/A"}</td>
-                                <td>{reservation.borrowerName}</td>
-                                <td>
+                            <tr key={reservation.id} className="hover:bg-slate-50/50 transition-colors">
+                                <td className="px-6 py-4 font-mono text-xs text-slate-400">{reservation.id}</td>
+                                <td className="px-6 py-4 font-medium text-slate-900">{reservation.roomName || "N/A"}</td>
+                                <td className="px-6 py-4 text-slate-600">{reservation.borrowerName}</td>
+                                <td className="px-6 py-4 text-slate-500 text-center whitespace-nowrap">
                                     {new Date(reservation.borrowDate).toLocaleDateString("id-ID", {
-                                        day: "2-digit", month: "long", year: "numeric"
+                                        day: "2-digit", month: "short", year: "numeric"
                                     })}
                                 </td>
-                                <td>{reservation.purpose}</td>
-                                <td>{getStatusLabel(reservation.status)}</td>
-                                <td className="flex gap-3">
-                                    <button onClick={() => handleView(reservation)} className="p-3 rounded-md bg-amber-600 text-white font-semibold">View</button>
-                                    <button 
-                                        onClick={() => handleEditClick(reservation)} 
-                                        disabled={isEditOpen} 
-                                        className="p-3 rounded-md bg-blue-500 text-white font-semibold"
-                                    >Edit</button>
-                                    <button 
-                                        onClick={() => deleteReservation(reservation.id)}
-                                        disabled={isDeleting}
-                                        className="p-3 rounded-md bg-red-600 text-white font-semibold disabled:opacity-50"
-                                    >
-                                        {isDeleting ? "Deleting..." : "Delete"}
-                                    </button>
+                                <td className="px-6 py-4">{getStatusLabel(reservation.status)}</td>
+                                <td className="px-6 py-4 text-right">
+                                    <div className="flex justify-end gap-2">
+                                        <button onClick={() => handleView(reservation)} className="px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 font-medium transition-all text-xs">View</button>
+                                        <button onClick={() => handleEditClick(reservation)} className="px-3 py-1.5 rounded-lg bg-black text-white hover:bg-slate-800 font-medium transition-all text-xs">Edit</button>
+                                        <button 
+                                            onClick={() => deleteReservation(reservation.id)}
+                                            disabled={isDeleting}
+                                            className="px-3 py-1.5 rounded-lg text-red-600 hover:bg-red-50 font-medium transition-all text-xs disabled:opacity-30"
+                                        >
+                                            {isDeleting ? "..." : "Delete"}
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))
                     ) : (
                         <tr>
-                            <td colSpan={7} className="text-center py-10 text-slate-500 bg-slate-50">
-                                Data peminjaman tidak ditemukan.
-                            </td>
+                            <td colSpan={6} className="text-center py-20 text-slate-400">Data tidak ditemukan.</td>
                         </tr>
                     )}
                 </tbody>

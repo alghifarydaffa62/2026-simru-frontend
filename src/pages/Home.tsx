@@ -1,8 +1,13 @@
+import Hero from "../component/Hero"
+import About from "../component/About"
+import Footer from "../component/Footer"
 
 export default function Home() {
     return(
-        <div>            
-            <h1 className="text-center font-semibold text-4xl">Selamat Datang di Sistem Informasi<br/>Manajemen Ruangan (SIMRU)</h1>
+        <div className="space-y-20 pb-10">
+            <Hero />
+            <About />
+            <Footer />
         </div>
     )
 }
